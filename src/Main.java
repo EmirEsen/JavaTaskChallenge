@@ -12,8 +12,16 @@ public class Main {
         Set<Task> annsTasks = TaskData.getData("Ann");
         sortAndPrint("Ann's Tasks", annsTasks, sortByPriority);
 
-        sortAndPrint("All tasks intersects Ann's Task", getIntersect(tasks, annsTasks));
-        sortAndPrint("All tasks - Ann's Task", getDifference(tasks, annsTasks));
+        Set<Task> bobsTasks = TaskData.getData("Bob");
+        sortAndPrint("Bob's Tasks", bobsTasks);
+
+//        sortAndPrint("All tasks intersects Ann's Task", getIntersect(tasks, annsTasks));
+//        sortAndPrint("All tasks - Ann's Task", getDifference(tasks, annsTasks));
+
+        List<Set<Task>> sets = List.of(annsTasks, bobsTasks, tasks);
+        sortAndPrint("Ann's and Bob's Tasks", getUnion(sets));
+
+        sortAndPrint("Ann's - Bob's", getDifference(annsTasks, bobsTasks));
 
 
 
@@ -36,22 +44,24 @@ public class Main {
         list.forEach(System.out::println);
     }
 
-    public static Set<Task> getUnion(Collection<Task> a, Collection<Task> b){
+    private static Set<Task> getUnion(List<Set<Task>> sets){
 
         Set<Task> unionAB = new HashSet<>();
-        unionAB.addAll(a);
-        unionAB.addAll(b);
+
+        for(Set<Task> a : sets){
+            unionAB.addAll(a);
+        }
         return unionAB;
     }
 
-    public static Set<Task> getIntersect(Collection<Task> a, Collection<Task> b){
+    private static Set<Task> getIntersect(Collection<Task> a, Collection<Task> b){
 
         Set<Task> intersectAB = new HashSet<>(a);
         intersectAB.retainAll(b);
         return intersectAB;
     }
 
-    public static Set<Task> getDifference(Collection<Task> a, Collection<Task> b){
+    private static Set<Task> getDifference(Collection<Task> a, Collection<Task> b){
 
         Set<Task> AminusB = new HashSet<>(a);
         AminusB.removeAll(b);
