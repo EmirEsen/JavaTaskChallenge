@@ -1,3 +1,7 @@
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
+
 public class TaskData {
 
     private static String tasks = """
@@ -37,6 +41,33 @@ public class TaskData {
             Data Design, Task Table, High
             Data Access, Write Views, Low
             """;
+
+
+    public static Set<Task> getData(String owner){
+        Set<Task> taskList = new HashSet<>();
+        String user = ("ann,bob,carol".contains(owner.toLowerCase())) ? owner : null;
+
+        String selectedList = switch (owner.toLowerCase()){
+            case "ann" -> annsTasks;
+            case "bob" -> bobsTasks;
+            case "carol" -> carolsTasks;
+            default -> tasks;
+        };
+
+        for(String taskData : selectedList.split("\n")){
+            String[] data = taskData.split(",");
+            Arrays.asList(data).replaceAll(String::trim);
+
+            Status status = (data.length <= 3) ? Status.NOT_YET_ASSIGNED :
+                    Status.valueOf(data[3].toUpperCase().replace(' ', '_'));
+
+            Priority priority = Priority.valueOf(data[2].toUpperCase());
+            taskList.add(new Task(data[0], data[1], user, status, priority));
+
+        }
+
+        return taskList;
+    }
 
 
 }
