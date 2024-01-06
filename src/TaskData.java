@@ -4,6 +4,8 @@ import java.util.Set;
 
 public class TaskData {
 
+
+    // name , description, priority
     private static String tasks = """
             Infrastructure, Logging, High
             Infrastructure, DB Access, Medium
@@ -18,6 +20,7 @@ public class TaskData {
             Data Access, Set Up Access Policy, Low
             """;
 
+    // name , description, status
     private static String annsTasks = """
             Infrastructure, Security, High, In Progress
             Infrastructure, Password Policy,Medium, In Progress
@@ -44,6 +47,7 @@ public class TaskData {
 
 
     public static Set<Task> getData(String owner){
+
         Set<Task> taskList = new HashSet<>();
         String user = ("ann,bob,carol".contains(owner.toLowerCase())) ? owner : null;
 
@@ -62,6 +66,7 @@ public class TaskData {
                     Status.valueOf(data[3].toUpperCase().replace(' ', '_'));
 
             Priority priority = Priority.valueOf(data[2].toUpperCase());
+
             taskList.add(new Task(data[0], data[1], user, status, priority));
 
         }
